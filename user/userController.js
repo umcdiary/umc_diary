@@ -23,4 +23,15 @@ module.exports = {
             res.status(400).send(false);
         }
     },
+    editEmail: async function (req, res) {
+        let email = req.params.email;
+        let newEmail = req.body.email;
+        try {
+            await userService.updateEmail(email, newEmail);
+            res.status(200).send(true);
+        } catch (err) {
+            console.log(err);
+            res.status(400).send(false);
+        }
+    },
 };

@@ -1,12 +1,13 @@
-require("dotenv").config();
-import mysql from "mysql2/promise"
+require('dotenv').config();
+import mysql from 'mysql2/promise';
+const env = process.env;
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user:'root',
-    port: '3306',
-    password: '58859476',
-    database: 'diary'
+    host: env.MYSQL_HOST,
+    user: env.MYSQL_USERNAME,
+    port: env.MYSQL_PORT,
+    password: env.MYSQL_PASSWORD,
+    database: env.MYSQL_DATABASE,
 });
 
 export default pool;

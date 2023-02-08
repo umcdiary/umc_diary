@@ -7,6 +7,7 @@ import {
     insertalbum,
     insertPaper,
     updatebookmark,
+    addUserAlbum,
 } from './albumDao';
 
 export const createalbum = async (UserID) => {
@@ -56,4 +57,68 @@ export const retrievbookmarks = async (Albumid) => {
     const connection = await pool.getConnection(async (conn) => conn);
     const retrievbookmarksResult = await selectbookmarks(connection, Albumid);
     return retrievbookmarksResult;
+};
+
+export const addUserAlbum = async function (albumId, userList) {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    const findAlbumQuery = `
+        SELECT *
+        FROM Album
+        WHERE AlbumId = ?;
+        `;
+    let result = await connection.query(findAlbumQuery, albumId);
+    console.log(result[0][0]);
+
+    let group = result[0][0].group;
+    if (group == null) {
+        group = [];
+    }
+
+    userList.forEach(async function (user) {
+        group.push(user);
+
+        const findUserQuery = `
+            SELECT *
+            FROM User
+            WHERE email = ?;
+            `;
+        let result = await connection.query(findUserQuery, user);
+        console.log(result[0][0]);
+        let album = result[0][0].album;
+
+        if (album == null) {
+            album = [];
+        }
+        album.push(albumId);
+        album = Array.from(new Set(album));
+
+        const updateUserQuery = `
+            UPDATE User
+            SET album = ?
+            WHERE email = ?;
+            `;
+
+        result = await connection.query(updateUserQuery, [
+            JSON.stringify(album),
+            user,
+        ]);
+
+        return result[0][0];
+    });
+
+    group = Array.from(new Set(group));
+
+    const updateAlbumQuery = `
+        UPDATE Album
+        SET users = ?
+        WHERE AlbumId = ?;
+        `;
+
+    result = await connection.query(updateAlbumQuery, [
+        JSON.stringify(group),
+        albumId,
+    ]);
+
+    return true;
 };

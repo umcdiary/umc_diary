@@ -7,6 +7,7 @@ import {
     getalbums,
     postpwd,
     patchBookmark,
+    addUser,
 } from './albumController';
 
 const albumRouter = express.Router();
@@ -18,4 +19,5 @@ albumRouter.post('/password', postpwd);
 albumRouter.patch('/paper/bookmark', patchBookmark);
 albumRouter.patch('/paper/nobookmark', patchBookmark2);
 albumRouter.get('/paper/bookmarks', getBookmarks);
+albumRouter.post('/adduser/:albumId', addUser);
 export default albumRouter;

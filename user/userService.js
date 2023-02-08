@@ -57,4 +57,15 @@ module.exports = {
         console.log(result);
         return result;
     },
+    deleteUser: async function (email) {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const query = `
+        DELETE
+        FROM User
+        WHERE email = ?;
+        `;
+        const result = await connection.query(query, email);
+        console.log(result);
+        return result;
+    },
 };

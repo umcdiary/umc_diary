@@ -56,4 +56,14 @@ module.exports = {
             res.status(400).send(false);
         }
     },
+    deleteUser: async function (req, res) {
+        let email = req.params.email;
+        try {
+            await userService.deleteUser(email);
+            res.status(200).send(true);
+        } catch (err) {
+            console.log(err);
+            res.status(400).send(false);
+        }
+    },
 };

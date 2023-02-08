@@ -35,4 +35,15 @@ module.exports = {
         console.log(result);
         return result;
     },
+    updatePassword: async function (email, password) {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const query = `
+        UPDATE User
+        SET password = ?
+        WHERE email = ?;
+        `;
+        const result = await connection.query(query, [password, email]);
+        console.log(result);
+        return result;
+    },
 };

@@ -34,4 +34,15 @@ module.exports = {
             res.status(400).send(false);
         }
     },
+    editPassword: async function (req, res) {
+        let email = req.params.email;
+        let password = req.body.password;
+        try {
+            await userService.updatePassword(email, password);
+            res.status(200).send(true);
+        } catch (err) {
+            console.log(err);
+            res.status(400).send(false);
+        }
+    },
 };

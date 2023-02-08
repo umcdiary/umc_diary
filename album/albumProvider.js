@@ -1,41 +1,34 @@
-import pool from "../config/database"
-import{selectbookmarks,updatebookmark2,selectalbums,selectpaper,insertalbum,insertPaper,updatebookmark} from "./albumDao"
+import pool from '../config/database';
+import {
+    selectbookmarks,
+    updatebookmark2,
+    selectalbums,
+    selectpaper,
+    insertalbum,
+    insertPaper,
+    updatebookmark,
+} from './albumDao';
 
-export const createalbum=async(UserID)=>{
-
-    const connection = await pool.getConnection(async(conn)=>conn);
-    const createalbumresult = await insertalbum(
-        connection,UserID
-    );
+export const createalbum = async (UserID) => {
+    const connection = await pool.getConnection(async (conn) => conn);
+    const createalbumresult = await insertalbum(connection, UserID);
     connection.release();
-    return createalbumresult
+    return createalbumresult;
+};
 
+export const retrievpaper = async (Albumid) => {
+    const connection = await pool.getConnection(async (conn) => conn);
+    const retrievpaperresult = await selectpaper(connection, Albumid);
 
-}
+    return retrievpaperresult;
+};
 
-export const retrievpaper=async(Albumid)=>{
-
-    const connection = await pool.getConnection(async(conn)=>conn);
-    const retrievpaperresult = await selectpaper(
-        connection,Albumid
-    );
-
-    return retrievpaperresult
-
-
-}
-
-export const retrievalbums=async(UserID)=>{
-
-    const connection = await pool.getConnection(async(conn)=>conn);
-    const retrievalbumsresult = await selectalbums(
-        connection,UserID
-    );
+export const retrievalbums = async (UserID) => {
+    const connection = await pool.getConnection(async (conn) => conn);
+    const retrievalbumsresult = await selectalbums(connection, UserID);
     console.log(retrievalbums);
-    return retrievalbumsresult
-
-
-}
+    return retrievalbumsresult;
+};
 
 /*
 export const createPaper = async()=>{
@@ -47,27 +40,20 @@ export const createPaper = async()=>{
 
 }*/
 
-export const createBookmark=async(paperID)=>{
+export const createBookmark = async (paperID) => {
+    const connection = await pool.getConnection(async (conn) => conn);
+    const createBookmarkResult = await updatebookmark(connection, paperID);
+    return createBookmarkResult;
+};
 
-    const connection = await pool.getConnection(async(conn)=>conn);
-    const createBookmarkResult = await updatebookmark(connection,paperID);
-    return createBookmarkResult;    
+export const deleteBookmark = async (paperID) => {
+    const connection = await pool.getConnection(async (conn) => conn);
+    const deletetBookmarkResult = await updatebookmark2(connection, paperID);
+    return deletetBookmarkResult;
+};
 
-}
-
-export const deleteBookmark= async(paperID)=>{
-
-    const connection = await pool.getConnection(async(conn)=>conn);
-    const deletetBookmarkResult = await updatebookmark2(connection,paperID);
-    return deletetBookmarkResult;  
-
-
-}
-
-export const retrievbookmarks = async(Albumid)=>{
-
-    const connection = await pool.getConnection(async(conn)=>conn);
-    const retrievbookmarksResult = await selectbookmarks(connection,Albumid);
-    return retrievbookmarksResult;   
-
-}
+export const retrievbookmarks = async (Albumid) => {
+    const connection = await pool.getConnection(async (conn) => conn);
+    const retrievbookmarksResult = await selectbookmarks(connection, Albumid);
+    return retrievbookmarksResult;
+};

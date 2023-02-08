@@ -121,3 +121,17 @@ export const addUserAlbum = async function (albumId, userList) {
 
     return true;
 };
+
+export const updateAlbumColor = async function (albumId, color) {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    const updateAlbumQuery = `
+        UPDATE Album
+        SET albumColor = ?
+        WHERE AlbumId = ?;
+        `;
+
+    await connection.query(updateAlbumQuery, [color, albumId]);
+    connection.release();
+    return true;
+};

@@ -8,6 +8,7 @@ import {
     postpwd,
     patchBookmark,
     addUser,
+    setAlbumColor,
 } from './albumController';
 
 const albumRouter = express.Router();
@@ -20,4 +21,5 @@ albumRouter.patch('/paper/bookmark', patchBookmark);
 albumRouter.patch('/paper/nobookmark', patchBookmark2);
 albumRouter.get('/paper/bookmarks', getBookmarks);
 albumRouter.post('/adduser/:albumId', addUser);
+albumRouter.post('/color/:albumId', setAlbumColor);
 export default albumRouter;

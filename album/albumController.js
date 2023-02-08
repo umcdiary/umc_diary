@@ -7,6 +7,7 @@ import {
     retrievpaper,
     createBookmark,
     addUserAlbum,
+    updateAlbumColor,
 } from './albumProvider';
 import { createpwd } from './albumService';
 import baseResponse from '../config/baseResponseStatus';
@@ -103,6 +104,18 @@ export const addUser = async (req, res) => {
     let userList = req.body.user;
     try {
         const result = await addUserAlbum(albumId, userList);
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(false);
+    }
+};
+
+export const setAlbumColor = async (req, res) => {
+    let albumId = req.params.albumId;
+    let color = req.body.color;
+    try {
+        const result = await updateAlbumColor(albumId, color);
         res.status(200).send(result);
     } catch (err) {
         console.log(err);

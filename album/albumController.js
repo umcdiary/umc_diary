@@ -6,7 +6,7 @@ import {
     retrievalbums,
     retrievpaper,
     createBookmark,
-    addUser,
+    addUserAlbum,
 } from './albumProvider';
 import { createpwd } from './albumService';
 import baseResponse from '../config/baseResponseStatus';

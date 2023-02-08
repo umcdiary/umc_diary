@@ -46,4 +46,15 @@ module.exports = {
         console.log(result);
         return result;
     },
+    updatePhone: async function (email, phone) {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const query = `
+        UPDATE User
+        SET Pnumber = ?
+        WHERE email = ?;
+        `;
+        const result = await connection.query(query, [phone, email]);
+        console.log(result);
+        return result;
+    },
 };

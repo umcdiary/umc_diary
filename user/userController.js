@@ -45,4 +45,15 @@ module.exports = {
             res.status(400).send(false);
         }
     },
+    editPhone: async function (req, res) {
+        let email = req.params.email;
+        let phone = req.body.phone;
+        try {
+            await userService.updatePhone(email, phone);
+            res.status(200).send(true);
+        } catch (err) {
+            console.log(err);
+            res.status(400).send(false);
+        }
+    },
 };

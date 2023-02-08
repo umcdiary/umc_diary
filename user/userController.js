@@ -12,4 +12,15 @@ module.exports = {
             res.status(400).send(false);
         }
     },
+    editNickname: async function (req, res) {
+        let email = req.params.email;
+        let nickname = req.body.nickname;
+        try {
+            await userService.updateNickname(email, nickname);
+            res.status(200).send(true);
+        } catch (err) {
+            console.log(err);
+            res.status(400).send(false);
+        }
+    },
 };

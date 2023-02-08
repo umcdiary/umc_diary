@@ -13,4 +13,15 @@ module.exports = {
         console.log(result);
         return result[0][0];
     },
+    updateNickname: async function (email, nickname) {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const query = `
+        UPDATE User
+        SET nickname = ?
+        WHERE email = ?;
+        `;
+        const result = await connection.query(query, [nickname, email]);
+        console.log(result);
+        return result;
+    },
 };

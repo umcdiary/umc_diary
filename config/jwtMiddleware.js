@@ -1,10 +1,12 @@
-/*import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import baseResponse from "./baseResponseStatus";
+import { errResponse } from "./response";
 
 
 
 export const jwtMiddleware = (req,res,next) =>{
     // read the token from header or url
-    const token = req.headers['x-access-token'] || req.query.token;
+    const token = req.headers['x-access-token']
     // token does not exist
     console.log(token);
     if(!token) {
@@ -14,7 +16,7 @@ export const jwtMiddleware = (req,res,next) =>{
     // create a promise that decodes the token
     const p = new Promise(
         (resolve, reject) => {
-            jwt.verify(token, process.env.JWT_SECRET , (err, verifiedToken) => {
+            jwt.verify(token, process.env.TOKEN_SECRET , (err, verifiedToken) => {
                 if(err) reject(err);
                 resolve(verifiedToken)
             })
@@ -34,4 +36,3 @@ export const jwtMiddleware = (req,res,next) =>{
     }).catch(onError);
 }
 
-*/

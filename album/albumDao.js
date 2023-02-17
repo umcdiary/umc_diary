@@ -69,3 +69,30 @@ export const selectbookmarks = async(conn,Albumid)=>{
     return selectbookmarksRow;
 
 }
+
+export const selectemoge = async(conn,emogeID)=>{
+
+    const selectemogeQuery = `select emogeImage from emoge where emogeID = ?;`;
+    const [selectemogeRow] = await conn.query(
+        selectemogeQuery,emogeID
+    );
+    return selectemogeRow;
+}
+
+export const selectname = async(conn,AlbumId)=>{
+
+    const selectnameQuery = `select albumname from Album where AlbumId = ?;`;
+    const [selectnameRow] = await conn.query(
+        selectnameQuery,AlbumId
+    );
+    return selectnameRow;
+}
+
+export const updatename = async(conn,albumname, AlbumId)=>{
+
+    const updatenameQuery = `update Album set albumname ="?" where AlbumId = 11;`;
+    const [updatenameRow] =await conn.query(
+        updatenameQuery,albumname,AlbumId
+    );
+    return updatenameRow
+}

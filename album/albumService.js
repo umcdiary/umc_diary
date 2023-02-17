@@ -15,3 +15,11 @@ export const createpwd=async(albumid,albumPassword)=>{
     }
 
 }
+
+export const makeCalendar = (date) =>{
+
+    const currentYear = new Date(date).getFullYear();
+    const currentMonth = new Date(date).getMonth()+1;
+    console.log(currentYear);
+    console.log(currentMonth);
+}

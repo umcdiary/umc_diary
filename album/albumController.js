@@ -1,8 +1,9 @@
 import {} from "./albumService"
-import {retrievbookmarks,deleteBookmark,createalbum,retrievalbums,retrievpaper,createBookmark} from "./albumProvider"
-import {createpwd} from "./albumService"
+import {renamealbumname,retrievalbumname,retrievemoge,retrievbookmarks,deleteBookmark,createalbum,retrievalbums,retrievpaper,createBookmark} from "./albumProvider"
+import {createpwd,makeCalendar} from "./albumService"
 import baseResponse from "../config/baseResponseStatus";
 import { errResponse, SUCCESSResponse } from "../config/response";
+import fs from "fs";
 /*
 API : [POST]새로운 앨범을 추가한다.
 */
@@ -101,4 +102,75 @@ export const getBookmarks = async(req,res)=>{
     return res.send(SUCCESSResponse(baseResponse.SUCCESS,getBookmarksResult));
 
 
+}
+
+/*
+API : [GET] 특정 이모티콘을 가지고 온다.
+
+
+export const getemoge = async(req,res)=>{
+    //const {emogeID} = req.query;
+    //const getemogResult = await retrievemoge(1);
+    //console.log(getemogResult);
+    /*const body = `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <img src = "../emoge/smile.png">
+    </body>
+    </html>`
+    
+    //res.write(200,{'content-Type': 'text/html'});
+    //res.write(JSON.stringify(body));
+    res.end();
+    
+    fs.readFile("./cat.jpg",(err,data)=>{
+        console.log("file loading");
+        res.writeHead(200);
+        if(err){res.send()}
+        res.send(data);
+        res.end();
+
+
+    })
+
+
+
+    
+    
+    
+    //return res.send(SUCCESSResponse(baseResponse.SUCCESS,getemogResult))
+}*/
+
+//API[get] 앨범 이름 가지고 오기
+export const getname=async(req,res)=>{
+
+    const {AlbumId} = req.body;
+    const getnameResult = await retrievalbumname(AlbumId);
+    return res.send(SUCCESSResponse(baseResponse.SUCCESS,getnameResult))
+}
+
+//API : [POST] 앨범 이름 수정 하기 
+export const postname = async(req,res)=>{
+
+    const {albumname,AlbumId} = req.body;
+    const postnameResult = await renamealbumname(albumname,AlbumId);
+    return res.send(SUCCESSResponse(baseResponse.SUCCESS,postnameResult));
+}
+
+/*
+API : [GET] 캘린더 가져오기
+*/
+export const getcalender = async(req,res)=>{
+    const date = new Date();
+    const {userId, email} = req.verifiedToken
+
+    console.log(userId,email)
+    // const getcalender = await makeCalendar(date);
+    // return res.send(getcalender)
 }

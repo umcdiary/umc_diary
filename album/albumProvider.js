@@ -1,5 +1,5 @@
 import pool from "../config/database"
-import{selectbookmarks,updatebookmark2,selectalbums,selectpaper,insertalbum,insertPaper,updatebookmark} from "./albumDao"
+import{updatename,selectname,selectemoge,selectbookmarks,updatebookmark2,selectalbums,selectpaper,insertalbum,insertPaper,updatebookmark} from "./albumDao"
 
 export const createalbum=async(UserID)=>{
 
@@ -13,11 +13,11 @@ export const createalbum=async(UserID)=>{
 
 }
 
-export const retrievpaper=async(Albumid)=>{
+export const retrievpaper=async(AlbumId)=>{
 
     const connection = await pool.getConnection(async(conn)=>conn);
     const retrievpaperresult = await selectpaper(
-        connection,Albumid
+        connection,AlbumId
     );
 
     return retrievpaperresult
@@ -70,4 +70,25 @@ export const retrievbookmarks = async(Albumid)=>{
     const retrievbookmarksResult = await selectbookmarks(connection,Albumid);
     return retrievbookmarksResult;   
 
+}
+
+export const retrievemoge = async(emogeID)=>{
+
+    const connection = await pool.getConnection(async(conn)=>conn)
+    const retrievemogeResult = await selectemoge(connection,emogeID);
+    return retrievemogeResult;
+}
+
+export const retrievalbumname = async(AlbumId)=>{
+
+    const connection = await pool.getConnection(async(conn)=>conn)
+    const retrievalbumnameResult = await selectname(connection, AlbumId);
+    return retrievalbumnameResult;
+}
+
+export const renamealbumname = async(albumname,AlbumId)=>{
+
+    const connection = await pool.getConnection(async(conn)=>conn)
+    const renamealbumnameResult = await updatename(connection,albumname,AlbumId);
+    return renamealbumnameResult;
 }

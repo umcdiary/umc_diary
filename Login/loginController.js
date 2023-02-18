@@ -29,6 +29,7 @@ export const postLogin = async (req,res)=>{
 
 export const postUserData = async(req,res)=>{
     const {nickname, email,profile} = req.body
+    
     if(!nickname)
     {
         res.status(400).json(errResponse(baseResponse.SIGNUP_NICKNAME_EMPTY))

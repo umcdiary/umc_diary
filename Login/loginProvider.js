@@ -1,5 +1,5 @@
 import pool from "../config/database"
-import { selectUserByEmail } from "./loginDao"
+import { insertUser,selectUserByEmail } from "./loginDao"
 
 export const findUser = async(email) =>{
     const connection = await pool.getConnection(async conn => conn)
@@ -9,3 +9,10 @@ export const findUser = async(email) =>{
     return result
 }
 
+export const AddUser = async(nickname,email,profile)=>{
+
+    const connection = await pool.getConnection(async(conn)=>conn);
+
+    const AddUserresult = await insertUser(connection,nickname,email,profile);
+    return AddUserresult
+}

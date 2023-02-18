@@ -1,9 +1,9 @@
 import {} from "./albumService"
 import {renamealbumname,retrievalbumname,retrievemoge,retrievbookmarks,deleteBookmark,createalbum,retrievalbums,retrievpaper,createBookmark} from "./albumProvider"
-import {createpwd,makeCalendar} from "./albumService"
+import {createpwd,} from "./albumService"
 import baseResponse from "../config/baseResponseStatus";
 import { errResponse, SUCCESSResponse } from "../config/response";
-import fs from "fs";
+
 /*
 API : [POST]새로운 앨범을 추가한다.
 */
@@ -168,7 +168,7 @@ API : [GET] 캘린더 가져오기
 */
 export const getcalender = async(req,res)=>{
     const date = new Date();
-    const {userId, email} = req.verifiedToken
+    const {userId, email,profile} = req.verifiedToken
 
     console.log(userId,email)
     // const getcalender = await makeCalendar(date);

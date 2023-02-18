@@ -14,5 +14,5 @@ albumRouter.get('/paper/bookmarks',getBookmarks);
 //albumRouter.get('/emoges/emoge',getemoge);
 albumRouter.get('/name',getname);
 albumRouter.post('/name/rename',postname);
-albumRouter.get('/calender',jwtMiddleware,getcalender)
+albumRouter.get('/calender',jwtMiddleware,getcalender);
 export default albumRouter;

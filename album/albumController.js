@@ -1,42 +1,48 @@
-import {} from "./albumService"
-import {renamealbumname,retrievalbumname,retrievemoge,retrievbookmarks,deleteBookmark,createalbum,retrievalbums,retrievpaper,createBookmark} from "./albumProvider"
-import {createpwd,makeCalendar} from "./albumService"
-import baseResponse from "../config/baseResponseStatus";
-import { errResponse, SUCCESSResponse } from "../config/response";
-import fs from "fs";
+import {} from './albumService';
+import {
+    renamealbumname,
+    retrievalbumname,
+    retrievemoge,
+    retrievbookmarks,
+    deleteBookmark,
+    createalbum,
+    retrievalbums,
+    retrievpaper,
+    createBookmark,
+} from './albumProvider';
+import { createpwd, makeCalendar } from './albumService';
+import baseResponse from '../config/baseResponseStatus';
+import { errResponse, SUCCESSResponse } from '../config/response';
+import fs from 'fs';
 /*
 API : [POST]새로운 앨범을 추가한다.
 */
-export const postalbum = async(req,res)=>{
-
-    const {UserID} = req.body;
+export const postalbum = async (req, res) => {
+    const { UserID } = req.body;
     const createalbumResult = await createalbum(UserID);
-    return res.send(SUCCESSResponse(baseResponse.SUCCESS,createalbumResult ));
-}
+    return res.send(SUCCESSResponse(baseResponse.SUCCESS, createalbumResult));
+};
 
 /*
 API : [GET]현재 생성된 특정 앨범의 속지를 하나 가지고 온다.
 */
 
-export const getpaper = async (req,res) =>{
-    const {Albumid} = req.body;
+export const getpaper = async (req, res) => {
+    const { Albumid } = req.body;
     const getpaperResult = await retrievpaper(Albumid);
     return res.send(SUCCESSResponse(baseResponse.SUCCESS, getpaperResult));
-   
-}
+};
 
 /*
 API : [GET]모든 앨범들을 가지고 온다.
 */
-export const getalbums = async (req,res) =>{
-   
-    const {UserID} = req.body;
+export const getalbums = async (req, res) => {
+    const { UserID } = req.body;
     console.log(UserID);
     const getalbumsResult = await retrievalbums(UserID);
     console.log(getalbumsResult);
     return res.send(SUCCESSResponse(baseResponse.SUCCESS, getalbumsResult));
-   
-}
+};
 
 /*
 API : [PATCH]비밀번호 4자리 설정
@@ -46,63 +52,54 @@ API : [PATCH]비밀번호 4자리 설정
 pwd로 설정한다.
 그럴려면 album id를 받고 pwd도 받아야겠네
 */
-export const postpwd = async(req,res)=>{
-
-    const {albumid, albumPassword} = req.body; 
-    if(!albumid){
+export const postpwd = async (req, res) => {
+    const { albumid, albumPassword } = req.body;
+    if (!albumid) {
         return errResponse(baseResponse.SIGNIN_EMAIL_EMPTY);
     }
-    if(!albumPassword){
+    if (!albumPassword) {
         return res.send(errResponse(baseResponse.SIGNUP_PASSWORD_EMPTY));
     }
-    
-    if(albumPassword<1000||albumPassword>9999){
+
+    if (albumPassword < 1000 || albumPassword > 9999) {
         return res.send(errResponse(baseResponse.SIGNUP_PASSWORD_LENGTH));
     }
     console.log(albumPassword);
-    const postpwdResult = await createpwd(albumid,albumPassword);
-    return res.send(SUCCESSResponse(baseResponse.SUCCESS,postpwdResult));
-
-}
+    const postpwdResult = await createpwd(albumid, albumPassword);
+    return res.send(SUCCESSResponse(baseResponse.SUCCESS, postpwdResult));
+};
 
 /*
 API : [PATCH]
 속지 즐겨 찾기 설정
 */
 
-export const patchBookmark=async(req,res)=>{
-
-    const {paperID} = req.body;
+export const patchBookmark = async (req, res) => {
+    const { paperID } = req.body;
     const patchBookmarkResult = await createBookmark(paperID);
     return res.send(SUCCESSResponse(baseResponse.SUCCESS));
-
-}
+};
 
 /*
 API : [PATCH]
 속지 즐겨 찾기 해제
 */
 
-export const patchBookmark2=async(req,res)=>{
-
-    const {paperID} = req.body;
+export const patchBookmark2 = async (req, res) => {
+    const { paperID } = req.body;
     const patchBookmark2Result = await deleteBookmark(paperID);
     return res.send(SUCCESSResponse(baseResponse.SUCCESS));
-
-}
+};
 /*
 API : [GET]
 즐겨찾는 속지 모아보기
 */
 
-export const getBookmarks = async(req,res)=>{
-
-    const {Albumid} = req.body;
+export const getBookmarks = async (req, res) => {
+    const { Albumid } = req.body;
     const getBookmarksResult = await retrievbookmarks(Albumid);
-    return res.send(SUCCESSResponse(baseResponse.SUCCESS,getBookmarksResult));
-
-
-}
+    return res.send(SUCCESSResponse(baseResponse.SUCCESS, getBookmarksResult));
+};
 
 /*
 API : [GET] 특정 이모티콘을 가지고 온다.
@@ -148,29 +145,27 @@ export const getemoge = async(req,res)=>{
 }*/
 
 //API[get] 앨범 이름 가지고 오기
-export const getname=async(req,res)=>{
-
-    const {AlbumId} = req.body;
+export const getname = async (req, res) => {
+    const { AlbumId } = req.body;
     const getnameResult = await retrievalbumname(AlbumId);
-    return res.send(SUCCESSResponse(baseResponse.SUCCESS,getnameResult))
-}
+    return res.send(SUCCESSResponse(baseResponse.SUCCESS, getnameResult));
+};
 
-//API : [POST] 앨범 이름 수정 하기 
-export const postname = async(req,res)=>{
-
-    const {albumname,AlbumId} = req.body;
-    const postnameResult = await renamealbumname(albumname,AlbumId);
-    return res.send(SUCCESSResponse(baseResponse.SUCCESS,postnameResult));
-}
+//API : [POST] 앨범 이름 수정 하기
+export const postname = async (req, res) => {
+    const { albumname, AlbumId } = req.body;
+    const postnameResult = await renamealbumname(albumname, AlbumId);
+    return res.send(SUCCESSResponse(baseResponse.SUCCESS, postnameResult));
+};
 
 /*
 API : [GET] 캘린더 가져오기
 */
-export const getcalender = async(req,res)=>{
+export const getcalender = async (req, res) => {
     const date = new Date();
-    const {userId, email} = req.verifiedToken
+    const { userId, email } = req.verifiedToken;
 
-    console.log(userId,email)
+    console.log(userId, email);
     // const getcalender = await makeCalendar(date);
     // return res.send(getcalender)
-}
+};

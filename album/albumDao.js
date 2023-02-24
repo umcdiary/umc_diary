@@ -1,98 +1,75 @@
-export const selectpaper= async(conn,Albumid)=>{
-
-    const selectpaperQuery= `select * from paper where Albumid = ?;`;
-    const [selectpaperRow] = await conn.query(
-        selectpaperQuery,Albumid
-    );
+export const selectpaper = async (conn, Albumid) => {
+    const selectpaperQuery = `select * from paper where Albumid = ?;`;
+    const [selectpaperRow] = await conn.query(selectpaperQuery, Albumid);
     return selectpaperRow;
-    
-}
+};
 
-export const selectalbums = async(conn,UserID)=>{
-  
-    const selectalbumsQuery= `select * from album WHERE UserID = ?;`;
-    const [selectalbumsRow] = await conn.query(selectalbumsQuery,UserID);
+export const selectalbums = async (conn, UserID) => {
+    const selectalbumsQuery = `select * from album WHERE UserID = ?;`;
+    const [selectalbumsRow] = await conn.query(selectalbumsQuery, UserID);
     console.log(selectalbumsRow);
     return selectalbumsRow;
-    
-}
+};
 
-export const insertalbum = async(conn,insertalbumParams)=>{
-
+export const insertalbum = async (conn, insertalbumParams) => {
     const insertalbumQuery = `insert into Album(UserID) value(?);`;
     const insertalbumRow = await conn.query(
-        insertalbumQuery,insertalbumParams
-    )    
+        insertalbumQuery,
+        insertalbumParams
+    );
     const insertPaperQuery = `insert into Paper(Albumid) value(last_insert_id());`;
     const insertPaperRow = await conn.query(insertPaperQuery);
     console.log(insertPaperRow);
     return insertalbumRow;
+};
 
-
-}
-
-export const insertPwd = async(conn,insertPwdParams)=>{
-
+export const insertPwd = async (conn, insertPwdParams) => {
     const insertpwdQuery = `Update Album set albumPassword = ? where albumid = ?;`;
-    const insertPwdRow = await conn.query(
-        insertpwdQuery,insertPwdParams
-    )
+    const insertPwdRow = await conn.query(insertpwdQuery, insertPwdParams);
     return insertPwdRow;
-}
+};
 
-export const updatebookmark = async(conn,paperID)=>{
-
+export const updatebookmark = async (conn, paperID) => {
     const updatebookmarkQuery = `update paper set bookmark = 1 where paperID = ?;`;
-    const updatebookmarkRow = await conn.query(
-        updatebookmarkQuery,paperID
-    );
-    console.log("bookmark sucess")
+    const updatebookmarkRow = await conn.query(updatebookmarkQuery, paperID);
+    console.log('bookmark sucess');
     return updatebookmarkRow;
-}
+};
 
-export const updatebookmark2= async(conn,paperID)=>{
-
+export const updatebookmark2 = async (conn, paperID) => {
     const deletebookmarkQuery = `update paper set bookmark = 0 where paperID = ?;`;
-    const deletebookmarkRow = await conn.query(
-        deletebookmarkQuery,paperID
-    );
-    console.log("bookmark delete sucess")
+    const deletebookmarkRow = await conn.query(deletebookmarkQuery, paperID);
+    console.log('bookmark delete sucess');
     return deletebookmarkRow;
-}
+};
 
-export const selectbookmarks = async(conn,Albumid)=>{
-
+export const selectbookmarks = async (conn, Albumid) => {
     const selectbookmarksQuery = `select * from paper where Albumid = ? and bookmark = 1;`;
     const [selectbookmarksRow] = await conn.query(
-        selectbookmarksQuery,Albumid
+        selectbookmarksQuery,
+        Albumid
     );
     return selectbookmarksRow;
+};
 
-}
-
-export const selectemoge = async(conn,emogeID)=>{
-
+export const selectemoge = async (conn, emogeID) => {
     const selectemogeQuery = `select emogeImage from emoge where emogeID = ?;`;
-    const [selectemogeRow] = await conn.query(
-        selectemogeQuery,emogeID
-    );
+    const [selectemogeRow] = await conn.query(selectemogeQuery, emogeID);
     return selectemogeRow;
-}
+};
 
-export const selectname = async(conn,AlbumId)=>{
-
+export const selectname = async (conn, AlbumId) => {
     const selectnameQuery = `select albumname from Album where AlbumId = ?;`;
-    const [selectnameRow] = await conn.query(
-        selectnameQuery,AlbumId
-    );
+    const [selectnameRow] = await conn.query(selectnameQuery, AlbumId);
     return selectnameRow;
-}
+};
 
-export const updatename = async(conn,albumname, AlbumId)=>{
-
+export const updatename = async (conn, albumname, AlbumId) => {
     const updatenameQuery = `update Album set albumname ="?" where AlbumId = 11;`;
-    const [updatenameRow] =await conn.query(
-        updatenameQuery,albumname,AlbumId
+    const [updatenameRow] = await conn.query(
+        updatenameQuery,
+        albumname,
+        AlbumId
     );
-    return updatenameRow
-}
+    return updatenameRow;
+};

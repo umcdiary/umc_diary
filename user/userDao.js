@@ -15,3 +15,9 @@ export const deleteUser = async (conn, deleteUserParams) => {
     );
     return deleteUserResult;
 };
+
+export const selectUser = async (conn, selectUserParams) => {
+    const selectUserQuery = `SELECT * FROM User WHERE id = ?;`;
+    const selctUserResult = await conn.query(selectUserQuery, selectUserParams);
+    return selctUserResult;
+};

@@ -1,4 +1,4 @@
-import {} from './userProvider';
+import { findUser } from './userProvider';
 import { editNickname, removeUser } from './userService';
 import baseResponse from '../config/baseResponseStatus';
 import { errResponse, SUCCESSResponse } from '../config/response';
@@ -16,4 +16,11 @@ export const deleteUser = async (req, res) => {
     const userId = req.params.userId;
     const removeUserResult = await removeUser(userId);
     return res.send(SUCCESSResponse(baseResponse.SUCCESS, removeUserResult));
+};
+
+// [GET] 정보 조회하기
+export const getUserInfo = async (req, res) => {
+    const userId = req.params.userId;
+    const findUserResult = await findUser(userId);
+    return res.send(SUCCESSResponse(baseResponse.SUCCESS, findUserResult));
 };

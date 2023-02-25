@@ -1,6 +1,6 @@
 import baseResponse from '../config/baseResponseStatus';
 import { errResponse, SUCCESSResponse } from '../config/response';
-import { insertPwd } from './albumDao';
+import { insertPwd, createAlbumUser } from './albumDao';
 import pool from '../config/database';
 export const createpwd = async (albumid, albumPassword) => {
     try {
@@ -20,4 +20,18 @@ export const makeCalendar = (date) => {
     const currentMonth = new Date(date).getMonth() + 1;
     console.log(currentYear);
     console.log(currentMonth);
+};
+
+export const addAlbumUser = async (albumId, userList) => {
+    try {
+        const connection = await pool.getConnection(async (conn) => conn);
+        userList.forEach((userId) => {
+            createAlbumUser(connection, [albumId, userId]);
+        });
+        connection.release();
+        return SUCCESSResponse(baseResponse.SUCCESS);
+    } catch (err) {
+        console.log(err);
+        return errResponse(baseResponse.DB_ERROR);
+    }
 };

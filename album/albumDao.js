@@ -73,3 +73,12 @@ export const updatename = async (conn, albumname, AlbumId) => {
     );
     return updatenameRow;
 };
+
+export const createAlbumUser = async (conn, createAblumUserParams) => {
+    const createAlbumUserQuery = `INSERT IGNORE INTO Album_User(albumId, userId) VALUES (?, ?);`;
+    const createAlbumUserResult = await conn.query(
+        createAlbumUserQuery,
+        createAblumUserParams
+    );
+    return createAlbumUserResult;
+};

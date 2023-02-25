@@ -10,7 +10,7 @@ import {
     retrievpaper,
     createBookmark,
 } from './albumProvider';
-import { createpwd, makeCalendar } from './albumService';
+import { createpwd, makeCalendar, addAlbumUser } from './albumService';
 import baseResponse from '../config/baseResponseStatus';
 import { errResponse, SUCCESSResponse } from '../config/response';
 import fs from 'fs';
@@ -168,4 +168,12 @@ export const getcalender = async (req, res) => {
     console.log(userId, email);
     // const getcalender = await makeCalendar(date);
     // return res.send(getcalender)
+};
+
+// [POST] 앨범 사용자 추가하기
+export const postAlbumUser = async (req, res) => {
+    let albumId = req.params.albumId;
+    let userList = req.body.user;
+    const addAlbumUserResult = await addAlbumUser(albumId, userList);
+    return res.send(SUCCESSResponse(baseResponse.SUCCESS, addAlbumUserResult));
 };

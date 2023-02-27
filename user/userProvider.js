@@ -12,6 +12,7 @@ export const findUser = async (userId) => {
         console.log(selectUserResult[0][0]);
         if (selectUserResult[0][0] != undefined) {
             const result = {};
+            result.isSuccess = true;
             result.nickname = selectUserResult[0][0].nickname;
             result.email = selectUserResult[0][0].email;
             return result;

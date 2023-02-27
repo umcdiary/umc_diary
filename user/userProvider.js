@@ -15,6 +15,7 @@ export const findUser = async (userId) => {
             result.isSuccess = true;
             result.nickname = selectUserResult[0][0].nickname;
             result.email = selectUserResult[0][0].email;
+            result.profileImage = selectUserResult[0][0].profileImage;
             return result;
         } else {
             return errResponse(baseResponse.USER_USERID_NOT_EXIST);

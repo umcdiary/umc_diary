@@ -7,6 +7,14 @@ import { errResponse, SUCCESSResponse } from '../config/response';
 export const patchNickname = async (req, res) => {
     const userId = req.params.userId;
     const nickname = req.body.nickname;
+    if (nickname == '') {
+        return res.send(
+            SUCCESSResponse(
+                baseResponse.SUCCESS,
+                errResponse(baseResponse.USER_NICKNAME_EMPTY)
+            )
+        );
+    }
     const editNicknameResult = await editNickname(userId, nickname);
     return res.send(SUCCESSResponse(baseResponse.SUCCESS, editNicknameResult));
 };

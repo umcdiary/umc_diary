@@ -11,10 +11,19 @@ export const editNickname = async (userId, nickname) => {
             connection,
             updateNicknameParams
         );
+        console.log(editNicknameResult[0].affectedRows);
+        if (editNicknameResult[0].affectedRows == 1) {
+            return SUCCESSResponse(baseResponse.SUCCESS);
+        } else if (editNicknameResult[0].affectedRows == 0) {
+            return errResponse(baseResponse.USER_USERID_NOT_EXIST);
+        }
         connection.release();
         return editNicknameResult;
     } catch (err) {
         console.log(err);
+        if (err.errno == 1062) {
+            return errResponse(baseResponse.SIGNUP_REDUNDANT_NICKNAME);
+        }
         return errResponse(baseResponse.DB_ERROR);
     }
 };

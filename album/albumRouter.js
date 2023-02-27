@@ -12,6 +12,7 @@ import {
     postpwd,
     patchBookmark,
     postAlbumUser,
+    getUserByEmail,
 } from './albumController';
 
 const albumRouter = express.Router();
@@ -28,4 +29,5 @@ albumRouter.get('/name', getname);
 albumRouter.post('/name/rename', postname);
 albumRouter.get('/calender', jwtMiddleware, getcalender);
 albumRouter.post('/adduser/:albumId', postAlbumUser);
+albumRouter.get('/finduser/:email', getUserByEmail);
 export default albumRouter;

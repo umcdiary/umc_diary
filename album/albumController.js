@@ -9,6 +9,7 @@ import {
     retrievalbums,
     retrievpaper,
     createBookmark,
+    findUserByEmail,
 } from './albumProvider';
 import { createpwd, makeCalendar, addAlbumUser } from './albumService';
 import baseResponse from '../config/baseResponseStatus';
@@ -176,4 +177,21 @@ export const postAlbumUser = async (req, res) => {
     let userList = req.body.user;
     const addAlbumUserResult = await addAlbumUser(albumId, userList);
     return res.send(SUCCESSResponse(baseResponse.SUCCESS, addAlbumUserResult));
+};
+
+// [GET] 특정 이메일 사용자 찾기
+export const getUserByEmail = async (req, res) => {
+    let email = req.params.email;
+    // if (email == '') {
+    //     return res.send(
+    //         SUCCESSResponse(
+    //             baseResponse.SUCCESS,
+    //             errResponse(baseResponse.USER_USEREMAIL_EMPTY)
+    //         )
+    //     );
+    // }
+    const findUserByEmailResult = await findUserByEmail(email);
+    return res.send(
+        SUCCESSResponse(baseResponse.SUCCESS, findUserByEmailResult)
+    );
 };

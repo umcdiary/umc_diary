@@ -82,3 +82,12 @@ export const createAlbumUser = async (conn, createAblumUserParams) => {
     );
     return createAlbumUserResult;
 };
+
+export const selectUserByEmail = async (conn, email) => {
+    const selectUserByEmailQuery = `SELECT * FROM User WHERE email = ?;`;
+    const selectUserByEmailResult = await conn.query(
+        selectUserByEmailQuery,
+        email
+    );
+    return selectUserByEmailResult;
+};

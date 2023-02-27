@@ -10,7 +10,10 @@ import {
     insertalbum,
     insertPaper,
     updatebookmark,
+    selectUserByEmail,
 } from './albumDao';
+import baseResponse from '../config/baseResponseStatus';
+import { errResponse, SUCCESSResponse } from '../config/response';
 
 export const createalbum = async (UserID) => {
     const connection = await pool.getConnection(async (conn) => conn);
@@ -81,4 +84,26 @@ export const renamealbumname = async (albumname, AlbumId) => {
         AlbumId
     );
     return renamealbumnameResult;
+};
+
+export const findUserByEmail = async (email) => {
+    try {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const selectUserByEmailResult = await selectUserByEmail(
+            connection,
+            email
+        );
+        console.log(selectUserByEmailResult[0][0]);
+        if (selectUserByEmailResult[0][0] != undefined) {
+            const result = {};
+            result.isSuccess = true;
+            result.nickname = selectUserByEmailResult[0][0].nickname;
+            result.profileImage = selectUserByEmailResult[0][0].profileImage;
+            return result;
+        } else {
+            return errResponse(baseResponse.USER_USEREMAIL_NOT_EXIST);
+        }
+    } catch (err) {
+        return errResponse(baseResponse.DB_ERROR);
+    }
 };

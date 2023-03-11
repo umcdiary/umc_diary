@@ -5,30 +5,28 @@ import jwt from "jsonwebtoken"
 
 
 export const postLogin = async (req,res)=>{
-    const {email,profile } = req.body
+    const {profile} = req.body
     
-    if (!email)
-        res.status(400).json(errResponse(baseResponse.SIGNUP_EMAIL_EMPTY))
     if (!profile)
         res.status(400).json(errResponse(baseResponse.SIGNUP_PROFILE_EMPTY))
 
     try{
-        const check = await findUser(email);
+        const check = await findUser(profile);
         if (check.length > 0){
             // 로그인 하러 ㄱ
-            const token = await jwt.sign({userId : check[0].Id,email,profile: check[0].profileImage},process.env.TOKEN_SECRET)
+            const token = await jwt.sign({userId : check[0].Id,profile: check[0].profileImage},process.env.TOKEN_SECRET)
             res.status(200).json(SUCCESSResponse(baseResponse.SUCCESS_LOGIN,{token}))
         }
         else{
-            res.json(SUCCESSResponse(baseResponse.GOTO_JOIN, {email,profile}))
+            res.json(SUCCESSResponse(baseResponse.GOTO_JOIN, {profile}))
         }
     }catch(e){
-        console.log(e.message)
+        console.log(e.message+1)
     }
 }
 
 export const postUserData = async(req,res)=>{
-    const {nickname, email,profile} = req.body
+    const {nickname,profile} = req.body
     
     if(!nickname)
     {
@@ -40,9 +38,9 @@ export const postUserData = async(req,res)=>{
     }
     try{
 
-        const postUserDataresult = await AddUser(nickname,email,profile);
-        const check = await findUser(email);
-        const token = await jwt.sign({userId : check[0].Id,email,profile: check[0].profileImage},process.env.TOKEN_SECRET)
+        const postUserDataresult = await AddUser(nickname,profile);
+        const check = await findUser(profile);
+        const token = await jwt.sign({userId : check[0].Id,profile: check[0].profileImage},process.env.TOKEN_SECRET)
      
         res.json(SUCCESSResponse(baseResponse.SUCCESS_SINGUP,{token}));
 

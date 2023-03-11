@@ -1,8 +1,8 @@
-export const selectpaper= async(conn,Albumid)=>{
+export const selectpaper= async(conn,paperID)=>{
 
-    const selectpaperQuery= `select * from paper where Albumid = ?;`;
+    const selectpaperQuery= `select * from paper where paperID = ?;`;
     const [selectpaperRow] = await conn.query(
-        selectpaperQuery,Albumid
+        selectpaperQuery,paperID
     );
     return selectpaperRow;
     
@@ -10,8 +10,8 @@ export const selectpaper= async(conn,Albumid)=>{
 
 export const selectalbums = async(conn,UserID)=>{
   
-    const selectalbumsQuery= `select * from album WHERE UserID = ?;`;
-    const [selectalbumsRow] = await conn.query(selectalbumsQuery,UserID);
+    const selectalbumsQuery= `select * from Album WHERE UserID = ${UserID};`;
+    const [selectalbumsRow] = await conn.query(selectalbumsQuery);
     console.log(selectalbumsRow);
     return selectalbumsRow;
     
@@ -70,13 +70,15 @@ export const selectbookmarks = async(conn,Albumid)=>{
 
 }
 
-export const selectemoge = async(conn,emogeID)=>{
+export const selectemoji = async(conn,paperID,createday)=>{
 
-    const selectemogeQuery = `select emogeImage from emoge where emogeID = ?;`;
+    const selectemogeQuery = `select emojiID from keywords where paperID =${paperID};`;
     const [selectemogeRow] = await conn.query(
-        selectemogeQuery,emogeID
+        selectemogeQuery
     );
+
     return selectemogeRow;
+
 }
 
 export const selectname = async(conn,AlbumId)=>{
@@ -85,14 +87,52 @@ export const selectname = async(conn,AlbumId)=>{
     const [selectnameRow] = await conn.query(
         selectnameQuery,AlbumId
     );
+    console.log(selectnameRow);
     return selectnameRow;
 }
 
 export const updatename = async(conn,albumname, AlbumId)=>{
 
-    const updatenameQuery = `update Album set albumname ="?" where AlbumId = 11;`;
+    const updatenameQuery = `update Album set albumname ="${albumname}" where AlbumId = ${AlbumId};`;
     const [updatenameRow] =await conn.query(
-        updatenameQuery,albumname,AlbumId
+        updatenameQuery
     );
     return updatenameRow
+}
+
+export const insertPaper = async(conn,insertPaperParams)=>{
+
+    const insertPaperQuery =`insert into paper(userId, AlbumId) values(?,?);`;
+    const insertPaperRow = await conn.query(
+        insertPaperQuery,insertPaperParams);
+    return insertPaperRow;
+}
+
+export const insertFeelings = async(conn,insertFeelingsParams)=>{
+    const insertFeelings = `insert into keywords(emojiID, paperID) values(?,?);`;
+    const insertFeelingsRow = await conn.query(
+        insertFeelings,insertFeelingsParams
+    );
+    return insertFeelingsRow;
+
+}
+
+export const selectpaperID = async(conn,userId,firstDay,currentDay,AlbumId)=>{
+    const selectpaperIDQuery = `select paperID,paper.created_at  from paper inner join User on paper.userID = User.id where AlbumId=${AlbumId} and User.id = ${userId} and (paper.created_at) between "${firstDay}" and "${currentDay}";`;
+    const [selectpaperIDRow]=await conn.query(selectpaperIDQuery);
+    return selectpaperIDRow
+
+}
+
+export const updatePaperText = async(conn,paperID,paperText)=>{
+    const updatePaperTextQuery = `update paper set paperText = "${paperText}" where paperID = ${paperID};`;
+    const updatePaperTextRow = await conn.query(updatePaperTextQuery);
+    return updatePaperTextRow;
+
+}
+
+export const selectPaperText = async(conn,paperID)=>{
+    const selectPaperTextQuery = `select paperText from paper where paperID = ${paperID};`;
+    const [selectPaperTextRow] = await conn.query(selectPaperTextQuery);
+    return selectPaperTextRow;
 }

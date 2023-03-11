@@ -1,13 +1,13 @@
 
-export const selectUserByEmail = async(connection, email) =>{
-    const sql = `select Id, email, profileImage from User where email = '${email}';`;
+export const selectUserByEmail = async(connection, profile) =>{
+    const sql = `select Id, profileImage from User where profileImage = "${profile}";`;
     const result = await connection.query(sql);
     return result[0];
 }
 
-export const insertUser = async(connection,nickname,email,profile)=>{
+export const insertUser = async(connection,nickname,profile)=>{
 
-    const insertUsersql = `insert into User(nickname,email,profileImage) values('${nickname}','${email}','${profile}');`;
+    const insertUsersql = `insert into User(nickname,profileImage) values('${nickname}','${profile}');`;
     const insertUserResult = await connection.query(insertUsersql);
     return insertUserResult;
 }

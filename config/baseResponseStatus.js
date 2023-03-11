@@ -7,6 +7,10 @@ const baseResponse = {
     TOKEN_VERIFICATION_FAILURE : { "isSuccess": false, "code": 3000, "message":"JWT 토큰 검증 실패" },
     TOKEN_VERIFICATION_SUCCESS : { "isSuccess": true, "code": 1001, "message":"JWT 토큰 검증 성공" }, // ?
 
+    //Paper
+    PAPER_FAIL:{"isSuccess": false, "code": 2020, "message":"paper작성 실패"},
+    PAPER_TEXT_EMPTY:{"isSuccess": false, "code": 2021, "message":"TEXT가 작성되지 않았습니다"},
+    PAPER_ID_WRONG:{"isSuccess": false, "code": 2022, "message":"PAPER_ID WRONG :: 해당 PAPER가 존재하지 않습니다"},
     //Request error
     SIGNUP_EMAIL_EMPTY : { "isSuccess": false, "code": 2001, "message":"이메일을 입력해주세요" },
     SIGNUP_EMAIL_LENGTH : { "isSuccess": false, "code": 2002, "message":"이메일은 30자리 미만으로 입력해주세요." },
@@ -49,7 +53,7 @@ const baseResponse = {
     SERVER_ERROR : { "isSuccess": false, "code": 4001, "message": "서버 에러"},
     
 
-    GOTO_JOIN : {"isSuccesss" : true, "code" : 200, "message" : "join"},
+    GOTO_JOIN : {"isSuccesss" : true, "code" : 200, "message" : "go to join"},
     SUCCESS_LOGIN : {"isSuccesss" : true, "code" : 200, "message" : "login"},
     SUCCESS_SINGUP : {"isSuccesss" : true, "code" : 200, "message" : "회원가입 성공"}
 };

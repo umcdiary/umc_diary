@@ -1,5 +1,5 @@
 import pool from "../config/database"
-import{updatename,selectname,selectemoge,selectbookmarks,updatebookmark2,selectalbums,selectpaper,insertalbum,insertPaper,updatebookmark} from "./albumDao"
+import{selectPaperText,updatePaperText,selectemoji,insertFeelings,updatename,selectname,selectemoge,selectbookmarks,updatebookmark2,selectalbums,selectpaper,insertalbum,insertPaper,updatebookmark} from "./albumDao"
 
 export const createalbum=async(UserID)=>{
 
@@ -13,13 +13,12 @@ export const createalbum=async(UserID)=>{
 
 }
 
-export const retrievpaper=async(AlbumId)=>{
+export const retrievpaper=async(paperID)=>{
 
     const connection = await pool.getConnection(async(conn)=>conn);
     const retrievpaperresult = await selectpaper(
-        connection,AlbumId
+        connection,paperID
     );
-
     return retrievpaperresult
 
 
@@ -31,7 +30,6 @@ export const retrievalbums=async(UserID)=>{
     const retrievalbumsresult = await selectalbums(
         connection,UserID
     );
-    console.log(retrievalbums);
     return retrievalbumsresult
 
 
@@ -72,12 +70,7 @@ export const retrievbookmarks = async(Albumid)=>{
 
 }
 
-export const retrievemoge = async(emogeID)=>{
 
-    const connection = await pool.getConnection(async(conn)=>conn)
-    const retrievemogeResult = await selectemoge(connection,emogeID);
-    return retrievemogeResult;
-}
 
 export const retrievalbumname = async(AlbumId)=>{
 
@@ -91,4 +84,45 @@ export const renamealbumname = async(albumname,AlbumId)=>{
     const connection = await pool.getConnection(async(conn)=>conn)
     const renamealbumnameResult = await updatename(connection,albumname,AlbumId);
     return renamealbumnameResult;
+}
+
+export const createpaper = async(userId,AlbumId)=>{
+
+    const connection = await pool.getConnection(async(conn)=>conn);
+    const insertPaperParams = [userId,AlbumId];
+    const createpaperResult = await insertPaper(connection,insertPaperParams);
+    return createpaperResult;
+
+}
+
+export const createfeelings = async(userID,AlbumID)=>{
+    const connection = await pool.getConnection(async(conn)=>conn);
+    const insertFeelingsParams = [userID,AlbumID];
+    const createfeelingsResult = await insertFeelings(connection,insertFeelingsParams);
+    return createfeelingsResult;
+}
+
+export const retrievemoji = async(paperID)=>{
+    const connection = await pool.getConnection(async(conn)=>conn);
+    const retrievemojiResult = await selectemoji(connection,paperID);
+    return retrievemojiResult
+
+}
+
+export const createPaperText = async(paperID,paperText)=>{
+    const connection = await pool.getConnection(async conn =>conn);
+    const createPaperTextResult = await updatePaperText(connection,paperID,paperText);
+    return createPaperTextResult;
+}
+
+export const retrivePaperText = async(paperID)=>{
+    const connection = await pool.getConnection(async conn => conn);
+    const retrivePaperTextResult = await selectPaperText(connection,paperID);
+    return retrivePaperTextResult
+}
+
+export const findepaper = async(paperID)=>{
+    const connection = await pool.getConnection(async conn => conn);
+    const findPaperResult = await selectpaper(connection,paperID);
+    return findPaperResult
 }

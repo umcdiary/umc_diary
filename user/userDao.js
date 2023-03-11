@@ -13,6 +13,16 @@ export const deleteUser = async (conn, deleteUserParams) => {
         deleteAlbumQuery,
         deleteUserParams
     );
+    const deleteEmptyAlbumQuery = `Delete Album FROM Album
+        INNER JOIN (
+                    SELECT count(*) c, 
+                    albumId 
+                    FROM Album_User 
+                    GROUP BY albumId 
+                    ) temp 
+        ON Album.AlbumId = temp.albumId 
+        WHERE c = 0 `;
+    const deleteEmptyAlbumResult = await conn.query(deleteEmptyAlbumQuery);
     const deleteUserQuery = `Delete from User where id = ?;`;
     const deleteUserResult = await conn.query(
         deleteUserQuery,

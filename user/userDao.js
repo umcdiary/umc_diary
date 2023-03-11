@@ -8,6 +8,11 @@ export const updateNickname = async (conn, updateNicknameParams) => {
 };
 
 export const deleteUser = async (conn, deleteUserParams) => {
+    const deleteAlbumQuery = `Delete from Album_User where userId = ?;`;
+    const deleteAlbumResult = await conn.query(
+        deleteAlbumQuery,
+        deleteUserParams
+    );
     const deleteUserQuery = `Delete from User where id = ?;`;
     const deleteUserResult = await conn.query(
         deleteUserQuery,

@@ -10,6 +10,7 @@ import {
     retrievpaper,
     createBookmark,
     findUserByEmail,
+    findUserList,
 } from './albumProvider';
 import { createpwd, makeCalendar, addAlbumUser } from './albumService';
 import baseResponse from '../config/baseResponseStatus';
@@ -194,4 +195,11 @@ export const getUserByEmail = async (req, res) => {
     return res.send(
         SUCCESSResponse(baseResponse.SUCCESS, findUserByEmailResult)
     );
+};
+
+// [GET] 앨범 사용자 조회하기
+export const getUserList = async (req, res) => {
+    let albumId = req.params.albumId;
+    const findUserListResult = await findUserList(albumId);
+    return res.send(SUCCESSResponse(baseResponse.SUCCESS, findUserListResult));
 };

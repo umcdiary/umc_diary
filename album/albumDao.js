@@ -91,3 +91,15 @@ export const selectUserByEmail = async (conn, email) => {
     );
     return selectUserByEmailResult;
 };
+
+export const selectUserListByAlbumId = async (conn, albumId) => {
+    const selectUserQuery = `SELECT * FROM Album_User WHERE albumId = ?;`;
+    const selectUserResult = await conn.query(selectUserQuery, albumId);
+    return selectUserResult;
+};
+
+export const selectUserById = async (conn, userId) => {
+    const selectUserByIdQuery = `SELECT * FROM User WHERE id = ?;`;
+    const selectUserByIdResult = await conn.query(selectUserByIdQuery, userId);
+    return selectUserByIdResult;
+};

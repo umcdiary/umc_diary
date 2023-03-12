@@ -11,9 +11,12 @@ import {
     insertPaper,
     updatebookmark,
     selectUserByEmail,
+    selectUserListByAlbumId,
+    selectUserById,
 } from './albumDao';
 import baseResponse from '../config/baseResponseStatus';
 import { errResponse, SUCCESSResponse } from '../config/response';
+import { copyFileSync } from 'fs';
 
 export const createalbum = async (UserID) => {
     const connection = await pool.getConnection(async (conn) => conn);
@@ -103,6 +106,27 @@ export const findUserByEmail = async (email) => {
         } else {
             return errResponse(baseResponse.USER_USEREMAIL_NOT_EXIST);
         }
+    } catch (err) {
+        return errResponse(baseResponse.DB_ERROR);
+    }
+};
+
+export const findUserList = async (albumId) => {
+    try {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const selectUserListByAlbumIdResult = await selectUserListByAlbumId(
+            connection,
+            albumId
+        );
+        const nicknameList = [];
+        for await (const user of selectUserListByAlbumIdResult[0]) {
+            const selectUserByIdResult = await selectUserById(
+                connection,
+                user.userId
+            );
+            nicknameList.push(selectUserByIdResult[0][0].nickname);
+        }
+        return nicknameList;
     } catch (err) {
         return errResponse(baseResponse.DB_ERROR);
     }

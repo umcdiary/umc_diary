@@ -1,6 +1,6 @@
 import baseResponse from "../config/baseResponseStatus";
 import { errResponse,SUCCESSResponse } from "../config/response";
-import { selectemoji,selectpaperID,insertPwd } from "./albumDao";
+import { insertKeywords,selectemoji,selectpaperIDs,insertPwd } from "./albumDao";
 import pool from "../config/database";
 export const createpwd=async(albumid,albumPassword)=>{
     try{
@@ -22,6 +22,7 @@ export const makeCalendar = (date) =>{
     const currentMonth = new Date(date).getMonth()+1;
     console.log(currentYear);
     console.log(currentMonth);
+    
 }
 
 export const retrievepaperId =async(date,userId,AlbumId) =>{
@@ -31,7 +32,8 @@ export const retrievepaperId =async(date,userId,AlbumId) =>{
     const d = date.getDate();
     const firstDay = `${y}-${m+1}-01`
     const currentDay =`${y}-${m+1}-${d}`
-    const retrievepaperIdResult = await selectpaperID(connection,userId,firstDay,currentDay,AlbumId);
+    const retrievepaperIdResult = await selectpaperIDs(connection,userId,firstDay,currentDay,AlbumId);
+    connection.release();
     return retrievepaperIdResult;
 
 }
@@ -46,6 +48,34 @@ export const retrievemojies = async(getcalenderResult)=>{
         
         result.push([retrievemojiResult,createday]);
     }
+    connection.release();
     return result;
    
+}
+
+export const createKeywords=async(paperID,keywordID_1,keywordID_2,keywordID_3)=>{
+
+    try{const connection = await pool.getConnection(async(conn)=>conn);
+    let result="";
+    if(keywordID_1){
+        const keywordIDResult = await insertKeywords(connection,paperID,keywordID_1); 
+        if(keywordIDResult)
+            result+="keyword1PushSUCESS__";
+    }
+    if(keywordID_2){
+        const keywordIDResult = await insertKeywords(connection,paperID,keywordID_2); 
+        if(keywordIDResult)
+            result+="keyword2PushSUCESS__";
+    }
+    if(keywordID_3){
+        const keywordIDResult = await insertKeywords(connection,paperID,keywordID_3); 
+        if(keywordIDResult)
+            result+="keyword3PushSUCESS__";
+    }
+    
+    connection.release();
+    return result;
+}catch(err){
+    console.log(err);
+}
 }

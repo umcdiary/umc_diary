@@ -8,6 +8,10 @@ const baseResponse = {
     TOKEN_VERIFICATION_SUCCESS : { "isSuccess": true, "code": 1001, "message":"JWT 토큰 검증 성공" }, // ?
 
     //Paper
+    PAPER_CREATE_FAIL:{"isSuccess": false, "code": 2023, "message":"paper 생성 실패"},
+    PAPER_EMOJI_FAIL:{"isSuccess": false, "code": 2024, "message":"paper emoji 생성 실패"},
+    PAPER_PLUSKEYWORDS_FAIL:{"isSuccess": false, "code": 2024, "message":"paper plus keywords 생성 실패"},
+    PAPER_FAIL:{"isSuccess": false, "code": 2020, "message":"paper작성 실패"},
     PAPER_FAIL:{"isSuccess": false, "code": 2020, "message":"paper작성 실패"},
     PAPER_TEXT_EMPTY:{"isSuccess": false, "code": 2021, "message":"TEXT가 작성되지 않았습니다"},
     PAPER_ID_WRONG:{"isSuccess": false, "code": 2022, "message":"PAPER_ID WRONG :: 해당 PAPER가 존재하지 않습니다"},

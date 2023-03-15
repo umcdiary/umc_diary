@@ -117,10 +117,10 @@ export const insertFeelings = async(conn,insertFeelingsParams)=>{
 
 }
 
-export const selectpaperID = async(conn,userId,firstDay,currentDay,AlbumId)=>{
-    const selectpaperIDQuery = `select paperID,paper.created_at  from paper inner join User on paper.userID = User.id where AlbumId=${AlbumId} and User.id = ${userId} and (paper.created_at) between "${firstDay}" and "${currentDay}";`;
-    const [selectpaperIDRow]=await conn.query(selectpaperIDQuery);
-    return selectpaperIDRow
+export const selectpaperIDs = async(conn,userId,firstDay,currentDay,AlbumId)=>{
+    const selectpaperIDsQuery = `select paperID,paper.created_at  from paper inner join User on paper.userID = User.id where AlbumId=${AlbumId} and User.id = ${userId} and (paper.created_at) between "${firstDay}" and "${currentDay}";`;
+    const [selectpaperIDsRow]=await conn.query(selectpaperIDsQuery);
+    return selectpaperIDsRow
 
 }
 
@@ -135,4 +135,31 @@ export const selectPaperText = async(conn,paperID)=>{
     const selectPaperTextQuery = `select paperText from paper where paperID = ${paperID};`;
     const [selectPaperTextRow] = await conn.query(selectPaperTextQuery);
     return selectPaperTextRow;
+}
+
+export const insertKeywords = async(conn,paperID,keyword)=>{
+    const insertKeywordsQuery =`insert into PlusKeywors(pluskeywordsname, paperid) values("${keyword}",${paperID});`;
+    const insertKeywordsRow = await conn.query(insertKeywordsQuery);
+    return insertKeywordsRow;
+
+}
+
+export const insertDefaultAlbum=async(conn,userId,albumname)=>{
+    const insertDefaultAlbumQuery = `insert into Album(albumname,userId) values("${albumname}",${userId});`;
+    const insertDefaultAlbumRow = await conn.query(insertDefaultAlbumQuery);
+    return insertDefaultAlbumRow;
+
+}
+
+export const selectpaperID = async(conn,userId,AlbumId)=>{
+    const selectpaperIDQuery =`select paperID from paper where userId=${userId} and AlbumId=${AlbumId} order by created_at desc Limit 1;`;
+    const [selectpaperIDRow] = await conn.query(selectpaperIDQuery)
+    return selectpaperIDRow;
+}
+
+export const selectKeyword = async(conn,paperID)=>{
+    const selectKeywordQuery = `select PlusKeywordsName from PlusKeywors where paperID = ${paperID};`;
+    const [selectKeywordRow] = await conn.query(selectKeywordQuery);
+    return selectKeywordRow;
+
 }

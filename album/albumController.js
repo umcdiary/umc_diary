@@ -1,6 +1,6 @@
 import {} from "./albumService"
-import {findepaper,retrivePaperText,createPaperText,retrievemoji,createfeelings,createpaper,renamealbumname,retrievalbumname,retrievbookmarks,deleteBookmark,createalbum,retrievalbums,retrievpaper,createBookmark} from "./albumProvider"
-import {retrievemojies,retrievepaperId,createpwd,} from "./albumService"
+import {retriveAlbumId,createDefaultAlbum,retrieveKeyword,retrievepaperID,findepaper,retrivePaperText,createPaperText,retrievemoji,createfeelings,createpaper,renamealbumname,retrievalbumname,retrievbookmarks,deleteBookmark,createalbum,retrievalbums,retrievpaper,createBookmark} from "./albumProvider"
+import {createKeywords,retrievemojies,retrievepaperId,createpwd,} from "./albumService"
 import baseResponse from "../config/baseResponseStatus";
 import { errResponse, SUCCESSResponse } from "../config/response";
 
@@ -14,18 +14,43 @@ export const postalbum = async(req,res)=>{
     return res.send(SUCCESSResponse(baseResponse.SUCCESS,createalbumResult ));
 }
 
+
+export const postDefaultAlbum = async(req,res)=>{
+    const {
+        verifiedToken:{
+            userId,
+        },
+        body:{albumname}
+    }=req;
+    const postDefaultAlbumResult = await createDefaultAlbum(userId,albumname);
+    if(postDefaultAlbumResult)
+        return res.send(SUCCESSResponse(baseResponse.SUCCESS,null));
+
+}
+
+export const getAlbumId = async(req,res)=>{
+    const userId = req.verifiedToken;
+    const getAlbumIdResult = await retriveAlbumId(userId);
+    if(getAlbumIdResult)
+        return res.send(SUCCESSResponse(baseResponse.SUCCESS));
+}
+
 /*
 API : [GET]현재 생성된 특정 앨범의 속지를 하나 가지고 온다.
 */
 
 export const getpaper = async (req,res) =>{
     const {paperID} = req.body;
+    //paper table의 저장된 정보들(text)
     const getpaperResult = await retrievpaper(paperID);
-    //추가적으로 저장된 keywords들도 가지고 와야한다.
+    //기분 emoji 가져오기
     const getemojiResult = await retrievemoji(paperID);
+    //Pluskeywords 가져오기
+    const getKeywordsReuslt = await retrieveKeyword(paperID);
     const result = new Array();
     result.push(getpaperResult);
     result.push(getemojiResult);
+    result.push(getKeywordsReuslt);
     console.log(result);
     return res.send(SUCCESSResponse(baseResponse.SUCCESS, result));
    
@@ -199,5 +224,53 @@ try{
 }catch(err){
     console.log(err)
 }
+
+}
+
+export const postPaper =async(req,res)=>{
+
+    /*
+    1. 기본 paper생성
+    2. 속지 이모티콘 설정
+    3. 속지 키워드 설정
+    4. 속지 내용 쓰기
+    */
+    try{const {
+        verifiedToken:{
+            userId,
+        },
+        body:{emojiID,keywordID_1,keywordID_2,keywordID_3,paperText},
+        params:{AlbumId}
+    }=req;
+    //기본 paper 생성
+    const postPaperResult = await createpaper(userId,AlbumId);
+    if(!postPaperResult){
+        res.send(errResponse(baseResponse.PAPER_CREATE_FAIL));
+    }
+    //paperID가지고오기
+    const selectPaperIDResult = await retrievepaperID(userId,AlbumId);
+    const paperID = selectPaperIDResult[0].paperID;
+    //속지 이모티콘 생성
+    const postfeelingsResult = await createfeelings(emojiID,paperID);
+    if(!postfeelingsResult){
+        res.send(errResponse(baseResponse.PAPER_EMOJI_FAIL));
+    }
+    //속지 키워드 설정
+    //1~3개를 받을 것이다. 어떻게 받아야할까
+    const postKeywordsResult = await createKeywords(paperID,keywordID_1,keywordID_2,keywordID_3);
+    if(!postKeywordsResult){
+        res.send(errResponse(baseResponse.PAPER_PLUSKEYWORDS_FAIL))
+    }
+    //속지 글쓰기
+    const postPaperTextResult = await createPaperText(paperID,paperText);
+    if(!postPaperTextResult){
+        res.send(errResponse(baseResponse.PAPER_TEXT_EMPTY));
+    }
+    //끝!
+    res.send(SUCCESSResponse(baseResponse.SUCCESS,null))
+    }catch(err){
+        console.log(err);
+
+    }
 
 }

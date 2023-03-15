@@ -1,5 +1,5 @@
 import pool from "../config/database"
-import{selectPaperText,updatePaperText,selectemoji,insertFeelings,updatename,selectname,selectemoge,selectbookmarks,updatebookmark2,selectalbums,selectpaper,insertalbum,insertPaper,updatebookmark} from "./albumDao"
+import{insertDefaultAlbum,selectKeyword,selectPaperText,updatePaperText,selectemoji,insertFeelings,updatename,selectname,selectemoge,selectbookmarks,updatebookmark2,selectalbums,selectpaper,insertalbum,insertPaper,updatebookmark, selectpaperID,selectpaperIDs} from "./albumDao"
 
 export const createalbum=async(UserID)=>{
 
@@ -22,6 +22,12 @@ export const retrievpaper=async(paperID)=>{
     return retrievpaperresult
 
 
+}
+
+export const createDefaultAlbum=async(userId,albumname)=>{
+    const connection = await pool.getConnection(async(conn)=>conn);
+    const createDefaultAlbumResult  = await insertDefaultAlbum(connection,userId,albumname);
+    return createDefaultAlbumResult;
 }
 
 export const retrievalbums=async(UserID)=>{
@@ -110,9 +116,14 @@ export const retrievemoji = async(paperID)=>{
 }
 
 export const createPaperText = async(paperID,paperText)=>{
-    const connection = await pool.getConnection(async conn =>conn);
+    
+    try{const connection = await pool.getConnection(async conn =>conn);
     const createPaperTextResult = await updatePaperText(connection,paperID,paperText);
+    connection.release();
     return createPaperTextResult;
+    }catch(err){
+        console.log(err);
+    }
 }
 
 export const retrivePaperText = async(paperID)=>{
@@ -125,4 +136,27 @@ export const findepaper = async(paperID)=>{
     const connection = await pool.getConnection(async conn => conn);
     const findPaperResult = await selectpaper(connection,paperID);
     return findPaperResult
+}
+
+export const retrievepaperID = async(userId,AlbumId)=>{
+    
+    try{const connection = await pool.getConnection(async(conn)=>conn);
+    const retrievePaperIDResult = await selectpaperID(connection,userId,AlbumId);
+    connection.release();
+    return retrievePaperIDResult;
+    }catch(err){
+        console.log(err);
+    }
+}
+
+export const retrieveKeyword = async(paperID)=>{
+
+    try{
+        const connection = await pool.getConnection(async(conn)=>conn);
+        const retrieveKeywordResult = await selectKeyword(connection,paperID);
+        return retrieveKeywordResult;
+
+    }catch(err){
+        console.log(err);
+    }
 }

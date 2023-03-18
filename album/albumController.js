@@ -1,5 +1,5 @@
 import {} from "./albumService"
-import {retriveAlbumId,createDefaultAlbum,retrieveKeyword,retrievepaperID,findepaper,retrivePaperText,createPaperText,retrievemoji,createfeelings,createpaper,renamealbumname,retrievalbumname,retrievbookmarks,deleteBookmark,createalbum,retrievalbums,retrievpaper,createBookmark} from "./albumProvider"
+import {retrivePaperIdByDay,retrivePaperId,createCurrentAlbumState,retriveCurrentAlbumState,retriveAlbumId,createDefaultAlbum,retrieveKeyword,retrieveNewpaperID,findepaper,retrivePaperText,createPaperText,retrievemoji,createfeelings,createpaper,renamealbumname,retrievalbumname,retrievbookmarks,deleteBookmark,createalbum,retrievalbums,retrievpaper,createBookmark} from "./albumProvider"
 import {createKeywords,retrievemojies,retrievepaperId,createpwd,} from "./albumService"
 import baseResponse from "../config/baseResponseStatus";
 import { errResponse, SUCCESSResponse } from "../config/response";
@@ -14,7 +14,9 @@ export const postalbum = async(req,res)=>{
     return res.send(SUCCESSResponse(baseResponse.SUCCESS,createalbumResult ));
 }
 
-
+/*
+API : [POST]새로운 앨범을 추가한다.
+*/
 export const postDefaultAlbum = async(req,res)=>{
     const {
         verifiedToken:{
@@ -23,16 +25,50 @@ export const postDefaultAlbum = async(req,res)=>{
         body:{albumname}
     }=req;
     const postDefaultAlbumResult = await createDefaultAlbum(userId,albumname);
+    //currnetAlbum 아이디 값을 가지고 오면 null이면 update 해주기
+    const getCurrentAlbumState = await retriveCurrentAlbumState(userId);
+    if(getCurrentAlbumState[0].currentAlbumId===null){
+        //해당 userId의 방금 생성된 albumId를 가지고 오기
+        const getAlbumIdResult = await retriveAlbumId(userId);
+        const AlbumId = getAlbumIdResult[0].AlbumId
+        const postCurrentAlbumStateResult = await createCurrentAlbumState(AlbumId,userId);
+        if(postCurrentAlbumStateResult){
+            console.log("yeah");
+            return res.send(SUCCESSResponse(baseResponse.SUCCESS,null));
+        }
+    }
     if(postDefaultAlbumResult)
         return res.send(SUCCESSResponse(baseResponse.SUCCESS,null));
 
 }
 
+/*
+API : [POST]새로운 앨범을 추가한다.
+*/
+
 export const getAlbumId = async(req,res)=>{
-    const userId = req.verifiedToken;
+    const userId = req.verifiedToken.userId;
     const getAlbumIdResult = await retriveAlbumId(userId);
-    if(getAlbumIdResult)
-        return res.send(SUCCESSResponse(baseResponse.SUCCESS));
+    if(getAlbumIdResult){
+        return res.send(SUCCESSResponse(baseResponse.SUCCESS,getAlbumIdResult));
+    }
+    
+}
+
+/*
+API : [GET]PaperID를 가지고 온다. 
+*/
+
+export const getPaperIdByDay = async(req,res)=>{
+
+    const {
+        verifiedToken:{userId},
+        body:{AlbumId,date}}=req;
+    const getPaperIdResult = await retrivePaperIdByDay(userId,AlbumId,date);
+    if(getPaperIdResult){
+        return res.send(SUCCESSResponse(baseResponse.SUCCESS,getPaperIdResult));
+    }
+    
 }
 
 /*
@@ -248,7 +284,7 @@ export const postPaper =async(req,res)=>{
         res.send(errResponse(baseResponse.PAPER_CREATE_FAIL));
     }
     //paperID가지고오기
-    const selectPaperIDResult = await retrievepaperID(userId,AlbumId);
+    const selectPaperIDResult = await retrieveNewpaperID(userId,AlbumId);
     const paperID = selectPaperIDResult[0].paperID;
     //속지 이모티콘 생성
     const postfeelingsResult = await createfeelings(emojiID,paperID);

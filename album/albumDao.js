@@ -151,7 +151,7 @@ export const insertDefaultAlbum=async(conn,userId,albumname)=>{
 
 }
 
-export const selectpaperID = async(conn,userId,AlbumId)=>{
+export const selectNewpaperID = async(conn,userId,AlbumId)=>{
     const selectpaperIDQuery =`select paperID from paper where userId=${userId} and AlbumId=${AlbumId} order by created_at desc Limit 1;`;
     const [selectpaperIDRow] = await conn.query(selectpaperIDQuery)
     return selectpaperIDRow;
@@ -162,4 +162,30 @@ export const selectKeyword = async(conn,paperID)=>{
     const [selectKeywordRow] = await conn.query(selectKeywordQuery);
     return selectKeywordRow;
 
+}
+
+export const selectCurrentAlbumState= async(conn,userId)=>{
+    const selectCurrentAlbumStateQuery =`select currentAlbumId from User where id=?;`;
+    const [selectCurrentAlbumStateRow] = await conn.query(selectCurrentAlbumStateQuery,userId);
+    return selectCurrentAlbumStateRow;
+}
+
+export const insertcreateCurrentAlbumState=async(conn,AlbumId,userId)=>{
+    const insertcreateCurrentAlbumStateQuery = `update User set currentAlbumId = ${AlbumId} where id = ${userId};`;
+    const insertcreateCurrentAlbumStateRow = await conn.query(insertcreateCurrentAlbumStateQuery);
+    return insertcreateCurrentAlbumStateRow
+}
+export const selectAlbumId = async(conn,userId)=>{
+
+    const selectAlbumIdQuery = `select AlbumId from Album where userId = ? order by created_at DESC  Limit 1;`;
+    const [selectAlbumIdRow] = await conn.query(selectAlbumIdQuery,userId);
+    return selectAlbumIdRow; 
+        
+
+}
+
+export const selectpaperIdByDay = async(conn,userId,AlbumId,date) =>{
+    const selectpaperIdByDayQuery =`select paperID from paper where userId=${userId} and AlbumId=${AlbumId} and Date(created_at)="${date}";`;
+    const [selectpaperIdByDayRow] = await conn.query(selectpaperIdByDayQuery);
+    return selectpaperIdByDayRow;
 }

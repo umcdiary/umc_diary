@@ -1,7 +1,7 @@
 const baseResponse = {
     // Success
     SUCCESS : { "isSuccess": true, "code": 1000, "message":"성공" },
-
+    TOKEN_SUCCESS : { "isSuccess": true, "code": 1001, "message":"토큰 발급 성공"},
     // Common
     TOKEN_EMPTY : { "isSuccess": false, "code": 2000, "message":"JWT 토큰을 입력해주세요." },
     TOKEN_VERIFICATION_FAILURE : { "isSuccess": false, "code": 3000, "message":"JWT 토큰 검증 실패" },
@@ -16,10 +16,8 @@ const baseResponse = {
     PAPER_TEXT_EMPTY:{"isSuccess": false, "code": 2021, "message":"TEXT가 작성되지 않았습니다"},
     PAPER_ID_WRONG:{"isSuccess": false, "code": 2022, "message":"PAPER_ID WRONG :: 해당 PAPER가 존재하지 않습니다"},
     //Request error
-    SIGNUP_EMAIL_EMPTY : { "isSuccess": false, "code": 2001, "message":"이메일을 입력해주세요" },
-    SIGNUP_EMAIL_LENGTH : { "isSuccess": false, "code": 2002, "message":"이메일은 30자리 미만으로 입력해주세요." },
-    SIGNUP_EMAIL_ERROR_TYPE : { "isSuccess": false, "code": 2003, "message":"이메일을 형식을 정확하게 입력해주세요." },
-
+ 
+    SIGNUP_KID_EMPTY:{"isSuccess": false, "code": 2003, "message":"kakao user ID를 입력해주세요" },
     SIGNUP_PASSWORD_EMPTY : { "isSuccess": false, "code": 2004, "message": "비밀번호를 입력 해주세요." },
     SIGNUP_PASSWORD_LENGTH : { "isSuccess": false, "code": 2005, "message":"비밀번호는 4자리를 입력해주세요." },
 

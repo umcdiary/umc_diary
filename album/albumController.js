@@ -27,6 +27,7 @@ export const postDefaultAlbum = async(req,res)=>{
     const postDefaultAlbumResult = await createDefaultAlbum(userId,albumname);
     //currnetAlbum 아이디 값을 가지고 오면 null이면 update 해주기
     const getCurrentAlbumState = await retriveCurrentAlbumState(userId);
+    console.log(getCurrentAlbumState);
     if(getCurrentAlbumState[0].currentAlbumId===null){
         //해당 userId의 방금 생성된 albumId를 가지고 오기
         const getAlbumIdResult = await retriveAlbumId(userId);

@@ -6,7 +6,7 @@ import{insertcreateCurrentAlbumState,selectAlbumId,
     selectname,selectemoge,selectbookmarks,
     updatebookmark2,selectalbums,selectpaper,
     insertalbum,insertPaper,updatebookmark,
-     selectpaperID,selectpaperIDs,selectpaperIdByDay} from "./albumDao"
+     selectNewpaperID,selectpaperIDs,selectpaperIdByDay} from "./albumDao"
 
 export const createalbum=async(UserID)=>{
 
@@ -26,6 +26,7 @@ export const retrievpaper=async(paperID)=>{
     const retrievpaperresult = await selectpaper(
         connection,paperID
     );
+    connection.release();
     return retrievpaperresult
 
 
@@ -34,6 +35,7 @@ export const retrievpaper=async(paperID)=>{
 export const createDefaultAlbum=async(userId,albumname)=>{
     const connection = await pool.getConnection(async(conn)=>conn);
     const createDefaultAlbumResult  = await insertDefaultAlbum(connection,userId,albumname);
+    connection.release();
     return createDefaultAlbumResult;
 }
 
@@ -43,6 +45,7 @@ export const retrievalbums=async(UserID)=>{
     const retrievalbumsresult = await selectalbums(
         connection,UserID
     );
+    connection.release();
     return retrievalbumsresult
 
 
@@ -62,6 +65,7 @@ export const createBookmark=async(paperID)=>{
 
     const connection = await pool.getConnection(async(conn)=>conn);
     const createBookmarkResult = await updatebookmark(connection,paperID);
+    connection.release();
     return createBookmarkResult;    
 
 }
@@ -70,6 +74,7 @@ export const deleteBookmark= async(paperID)=>{
 
     const connection = await pool.getConnection(async(conn)=>conn);
     const deletetBookmarkResult = await updatebookmark2(connection,paperID);
+    connection.release();
     return deletetBookmarkResult;  
 
 
@@ -79,6 +84,7 @@ export const retrievbookmarks = async(Albumid)=>{
 
     const connection = await pool.getConnection(async(conn)=>conn);
     const retrievbookmarksResult = await selectbookmarks(connection,Albumid);
+    connection.release();
     return retrievbookmarksResult;   
 
 }
@@ -89,6 +95,7 @@ export const retrievalbumname = async(AlbumId)=>{
 
     const connection = await pool.getConnection(async(conn)=>conn)
     const retrievalbumnameResult = await selectname(connection, AlbumId);
+    connection.release();
     return retrievalbumnameResult;
 }
 
@@ -96,6 +103,7 @@ export const renamealbumname = async(albumname,AlbumId)=>{
 
     const connection = await pool.getConnection(async(conn)=>conn)
     const renamealbumnameResult = await updatename(connection,albumname,AlbumId);
+    connection.release();
     return renamealbumnameResult;
 }
 
@@ -104,6 +112,7 @@ export const createpaper = async(userId,AlbumId)=>{
     const connection = await pool.getConnection(async(conn)=>conn);
     const insertPaperParams = [userId,AlbumId];
     const createpaperResult = await insertPaper(connection,insertPaperParams);
+    connection.release();
     return createpaperResult;
 
 }
@@ -112,12 +121,14 @@ export const createfeelings = async(userID,AlbumID)=>{
     const connection = await pool.getConnection(async(conn)=>conn);
     const insertFeelingsParams = [userID,AlbumID];
     const createfeelingsResult = await insertFeelings(connection,insertFeelingsParams);
+    connection.release();
     return createfeelingsResult;
 }
 
 export const retrievemoji = async(paperID)=>{
     const connection = await pool.getConnection(async(conn)=>conn);
     const retrievemojiResult = await selectemoji(connection,paperID);
+    connection.release();
     return retrievemojiResult
 
 }
@@ -136,19 +147,21 @@ export const createPaperText = async(paperID,paperText)=>{
 export const retrivePaperText = async(paperID)=>{
     const connection = await pool.getConnection(async conn => conn);
     const retrivePaperTextResult = await selectPaperText(connection,paperID);
+    connection.release();
     return retrivePaperTextResult
 }
 
 export const findepaper = async(paperID)=>{
     const connection = await pool.getConnection(async conn => conn);
     const findPaperResult = await selectpaper(connection,paperID);
+    connection.release();
     return findPaperResult
 }
 
 export const retrieveNewpaperID = async(userId,AlbumId)=>{
     
     try{const connection = await pool.getConnection(async(conn)=>conn);
-    const retrieveNewPaperIDResult = await selectpaperID(connection,userId,AlbumId);
+    const retrieveNewPaperIDResult = await selectNewpaperID(connection,userId,AlbumId);
     connection.release();
     return retrieveNewPaperIDResult;
     }catch(err){

@@ -7,7 +7,14 @@ export const selectUserByID = async(connection, K_ID) =>{
 
 export const insertUser = async(connection,nickname,profile,K_ID)=>{
 
-    const insertUsersql = `insert into User(nickname,profileImage,K_ID) values('${nickname}','${profile}',"'${K_ID}'");`;
+    const insertUsersql = `insert into User(nickname,profileImage,K_ID) values('${nickname}','${profile}',"${K_ID}");`;
     const insertUserResult = await connection.query(insertUsersql);
     return insertUserResult;
+}
+
+export const selectKid = async(connection,Kid)=>{
+
+    const selectKidQuery =`select K_ID from User where K_ID="${Kid}";`;
+    const [selectKidRow] = await connection.query(selectKidQuery);
+    return selectKidRow; 
 }

@@ -10,11 +10,11 @@ export const findUser = async(K_ID) =>{
     return result
 }
 
-export const AddUser = async(nickname,profile)=>{
+export const AddUser = async(nickname,profile,K_ID)=>{
 
     const connection = await pool.getConnection(async(conn)=>conn);
 
-    const AddUserresult = await insertUser(connection,nickname,profile,e,K_ID);
+    const AddUserresult = await insertUser(connection,nickname,profile,K_ID);
     connection.release();
     return AddUserresult
 }

@@ -17,7 +17,8 @@ const baseResponse = {
     PAPER_ID_WRONG:{"isSuccess": false, "code": 2022, "message":"PAPER_ID WRONG :: 해당 PAPER가 존재하지 않습니다"},
     //Request error
  
-    SIGNUP_KID_EMPTY:{"isSuccess": false, "code": 2003, "message":"kakao user ID를 입력해주세요" },
+    SIGNUP_KID_EMPTY:{"isSuccess": false, "code": 2100, "message":"kakao user ID를 입력해주세요" },
+    SIGNUP_ALREADY_KID:{"isSuccess": false, "code": 2003, "message":"이미 존재하는 유저입니다. 로그인으로 이동해주세요" },
     SIGNUP_PASSWORD_EMPTY : { "isSuccess": false, "code": 2004, "message": "비밀번호를 입력 해주세요." },
     SIGNUP_PASSWORD_LENGTH : { "isSuccess": false, "code": 2005, "message":"비밀번호는 4자리를 입력해주세요." },
 

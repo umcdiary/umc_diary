@@ -14,7 +14,7 @@ export const postLogin = async (req,res)=>{
         const check = await findUser(K_ID);
         if (check.length > 0){
             // 로그인 하러 ㄱ
-            const token = await jwt.sign({userId : check[0].Id,profile: check[0].profileImage},process.env.TOKEN_SECRET,{expiresIn:'3days'})
+             const token = await jwt.sign({userId : check[0].Id,profile: check[0].profileImage},process.env.TOKEN_SECRET,{expiresIn:'3days'})
             return res.status(200).json(SUCCESSResponse(baseResponse.SUCCESS_LOGIN,{token}))
         }
         else{
